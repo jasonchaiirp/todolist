@@ -1,6 +1,16 @@
+'use client';
+
+import { AddTask } from "@/components/AddTask";
 import Image from "next/image";
 
+import { useState } from "react";
+
 export default function Home() {
+  const [tasks, setTasks] = useState<string[]>([]);
+
+  const addTask = (task: string) => {
+    setTasks([...tasks, task]);
+  };
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -12,6 +22,15 @@ export default function Home() {
           height={38}
           priority
         />
+        <AddTask onAdd={addTask} />
+
+        {/* Display Tasks */}
+      <ul className="mt-4">
+        {tasks.map((t, i) => (
+          <li key={i} className="p-2 border-b">{t}</li>
+        ))}
+      </ul>
+
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
@@ -99,3 +118,5 @@ export default function Home() {
     </div>
   );
 }
+// Removed the conflicting local useState function
+
