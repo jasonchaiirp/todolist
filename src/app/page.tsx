@@ -4,6 +4,8 @@ import { AddTask } from "@/components/AddTask";
 import Image from "next/image";
 
 import { useState } from "react";
+import TaskList from "@/components/TaskList";
+
 
 export default function Home() {
   const [tasks, setTasks] = useState<string[]>([]);
@@ -11,6 +13,11 @@ export default function Home() {
   const addTask = (task: string) => {
     setTasks([...tasks, task]);
   };
+
+  const deleteTask = (index: number) => {
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+  
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -24,12 +31,8 @@ export default function Home() {
         />
         <AddTask onAdd={addTask} />
 
-        {/* Display Tasks */}
-      <ul className="mt-4">
-        {tasks.map((t, i) => (
-          <li key={i} className="p-2 border-b">{t}</li>
-        ))}
-      </ul>
+        <TaskList tasks={tasks} onDelete={deleteTask} />
+        
 
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
